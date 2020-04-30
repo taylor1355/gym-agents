@@ -2,14 +2,14 @@ import gym
 
 import rl
 from rl import agents
+from rl import exploration_strategies
 
 if __name__ == '__main__':
-    #environment = gym.make('CartPole-v0')
-    environment = gym.make('MountainCarContinuous-v0')
-    #agent = agents.RandomAgent(environment)
-    agent = agents.GreedyAgent(environment)
-    runner = rl.Runner(environment, agent)
+    # environment = gym.make('CartPole-v0')
+    environment = gym.make('MountainCar-v0')
+    explore_strategy = exploration_strategies.EpsilonGreedy(environment.action_space, epsilon=0.01)
+    agent = agents.tabular.OnPolicyMonteCarloAgent(environment, explore_strategy, 0.99)
+    agent.train(1000)
 
-    runner.run(100, 1000)
-    #params = agents.tabular_q_learning.TabularQLearningParameters(learning_rate=1e-3)
-    #agent = agents.TabularQLearningAgent(environment, params)
+    runner = rl.Runner(environment, agent)
+    runner.run(100, 10000)

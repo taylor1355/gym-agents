@@ -1,3 +1,5 @@
-from rl.runner import Runner
+from rl import agents
+from rl import exploration_strategies
+from rl import wrappers
 
-__all__ = ['Runner']
+from rl.runner import Runner

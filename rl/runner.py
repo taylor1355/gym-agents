@@ -3,9 +3,6 @@ class Runner:
         self.environment = environment
         self.agent = agent
 
-    def __del__(self):
-        self.environment.close()
-
     def run(self, episodes, max_steps):
         for episode in range(episodes):
             print(f'Episode {episode}')
@@ -16,4 +13,5 @@ class Runner:
                 print(action)
                 observation, reward, done, info = self.environment.step(action)
                 if done:
+                    self.environment.close()
                     break
