@@ -3,7 +3,8 @@ from rl.wrappers import SnapshotWrapper
 
 class GreedyAgent:
     def __init__(self, environment, samples=100):
-        self.environment = wrappers.apply_wrapper(environment, SnapshotWrapper)
+        environment.apply_wrapper(SnapshotWrapper)
+        self.environment = environment
         self.samples = samples
 
     def act(self, observation):

@@ -1,4 +1,2 @@
+from rl.wrappers.base import BaseWrapper
 from rl.wrappers.snapshot import SnapshotWrapper
-
-from rl.wrappers.utils import implements_wrapper
-from rl.wrappers.utils import apply_wrapper
