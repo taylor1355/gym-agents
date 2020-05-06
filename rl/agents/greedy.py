@@ -1,4 +1,4 @@
-from rl import wrappers
+from rl import spaces
 from rl.wrappers import SnapshotWrapper
 
 class GreedyAgent:
@@ -8,12 +8,20 @@ class GreedyAgent:
         self.samples = samples
 
     def act(self, observation):
-        best_action, best_reward = None, None
+        actions = []
+        if spaces.is_discrete(self.environment.action_space):
+            actions = spaces.enumerate(self.environment.action_space)
+        else:
+            actions = (self.environment.action_space.sample() for i in range(self.samples))
+
+        return self.find_greedy(actions)
+
+    def find_greedy(self, actions):
+        greedy_action, max_reward = None, None
         original_state = self.environment.save_snapshot()
-        for sample in range(self.samples):
-            action = self.environment.action_space.sample()
+        for action in actions:
             _, reward, _, _ = self.environment.step(action)
-            if best_reward is None or best_reward < reward:
-                best_action, best_reward = action, reward
+            if max_reward is None or max_reward < reward:
+                greedy_action, max_reward = action, reward
             self.environment.load_snapshot(original_state)
-        return best_action
+        return greedy_action
