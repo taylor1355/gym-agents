@@ -6,7 +6,6 @@ from rl.agents.tabular import ActionValuesTable
 # the exploration policy. Sample returns from following the behavior policy are
 # used to calculate the action-values of the target policy using weighted importance-
 # sampling
-
 class OffPolicyMonteCarloAgent(BaseAgent):
     def __init__(self, environment, exploration_strategy, discount):
         super().__init__(environment, exploration_strategy, discount)
