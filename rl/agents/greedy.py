@@ -1,3 +1,5 @@
+import numpy as np
+
 from rl import spaces
 from rl.wrappers import SnapshotWrapper
 

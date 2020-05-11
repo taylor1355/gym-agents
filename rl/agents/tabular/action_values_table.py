@@ -1,6 +1,7 @@
 import numpy as np
 
 from collections import namedtuple
+from rl import spaces
 
 WeightedValue = namedtuple('WeightedValue', ['value', 'weight'])
 
@@ -31,18 +32,13 @@ class ActionValuesTable:
         self.action_values[hashable_state][action] = WeightedValue(updated_value, weight_sum + weight)
 
     def greedy_action(self, state):
-        hashable_state = get_hashable(state)
-        if hashable_state not in self.action_values:
-            return self.action_space.sample()
-
-        actions = self.action_values[hashable_state]
-        return max(actions, key=lambda action: actions[action].value)
+        return max(spaces.enumerate(self.action_space), key=lambda action: self[state, action])
 
     def getWeightedValue(self, key):
         state, action = key
         hashable_state = get_hashable(state)
         if hashable_state not in self.action_values or action not in self.action_values[hashable_state]:
-            return WeightedValue(0, 0)  
+            return WeightedValue(0, 0)
         return self.action_values[hashable_state][action]
 
     def __getitem__(self, key):
